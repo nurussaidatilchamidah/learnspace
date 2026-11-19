@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\VideoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VideoStreamController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Student\CourseController as StudentCourseController;
 
 Route::get('/', fn () => redirect()->route('dashboard'));
 
@@ -45,7 +46,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 // Area student (placeholder, diganti di langkah berikutnya)
 Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')->group(function () {
-    Route::get('courses', fn () => view('student.placeholder'))->name('courses.index');
+    Route::get('courses', [StudentCourseController::class, 'index'])->name('courses.index');
+    Route::get('courses/{course}', [StudentCourseController::class, 'show'])->name('courses.show');
+    Route::get('courses/{course}/lessons/{lesson}', [StudentCourseController::class, 'lesson'])->name('courses.lesson');
 });
 
 require __DIR__.'/auth.php';

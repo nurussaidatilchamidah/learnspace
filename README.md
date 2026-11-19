@@ -1,59 +1,104 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# LearnSpace: Simple E-Learning Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi E-Learning sederhana dengan area Admin dan Student.
+Admin mengelola course dan lesson (video), Student menonton.
 
-## About Laravel
+## Teknologi
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Teknologi | Alasan |
+|---|---|
+| Laravel 12 (PHP 8.2) | Diwajibkan brief. Routing, validasi, Eloquent, dan middleware sudah matang |
+| MySQL | Diwajibkan brief. Cocok untuk data relasional course, lesson, video |
+| Blade + Tailwind (Breeze) | Server-side rendering sederhana, cepat dibuat, mudah dirawat |
+| Vanilla JS (XHR) | Upload dengan progress bar tanpa framework tambahan |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Fitur
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Login Admin dan Student, akses halaman dibedakan per role (middleware `role`)
+- Admin: CRUD course (judul, deskripsi, kategori, level, status draft/published)
+- Admin: CRUD lesson, urutan naik/turun
+- Admin: upload video dengan progress bar, status `uploading`, `ready`, `failed`, dan Retry
+- Video disimpan di storage private dan hanya bisa diakses lewat controller yang mengecek login dan role
+- Student: daftar course published, detail course dengan lesson, player video
 
-## Learning Laravel
+## Requirement
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- PHP >= 8.2, Composer, Node.js >= 18, MySQL
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Instalasi
 
-## Laravel Sponsors
+```bash
+git clone https://github.com/nurussaidatilchamidah/learnspace.git
+cd learnspace
+composer install
+npm install
+copy .env.example .env      # Linux/Mac: cp .env.example .env
+php artisan key:generate
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Atur `.env`:
 
-### Premium Partners
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=learnspace
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Buat database kosong `learnspace`, lalu:
 
-## Contributing
+```bash
+php artisan migrate --seed
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Naikkan batas upload di `php.ini`, lalu restart server:
 
-## Code of Conduct
+```ini
+upload_max_filesize = 512M
+post_max_size = 520M
+max_execution_time = 300
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Menjalankan
 
-## Security Vulnerabilities
+Jalankan di dua terminal:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+npm run dev
+php artisan serve
+```
 
-## License
+Buka http://127.0.0.1:8000
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Akun demo
+
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin@learnspace.test | password |
+| Student | student@learnspace.test | password |
+
+## Dokumen desain
+
+Lihat folder `docs/`: system design, ERD, flowchart admin dan student.
+Prototype UI: (tempel link Figma di sini)
+
+## Asumsi
+
+- Satu lesson memiliki satu video (relasi 1:1)
+- Format video: MP4, MOV, WebM, maksimal 500 MB
+- Video disimpan di `storage/app/private`, tanpa object storage, queue, atau transcoding
+- Student dapat melihat semua course berstatus published tanpa proses enrollment
+- Status video: `uploading` (sedang diproses), `ready` (siap ditonton), `failed` (gagal, bisa retry)
+- Student hanya dapat menonton video `ready` dari course yang published
+
+## Keterbatasan
+
+- Belum ada fitur enrollment, progress belajar, rating, dan review
+- Upload tidak bisa dilanjutkan (resume) jika koneksi terputus, hanya diulang dari awal
+- Tidak ada transcoding atau adaptive streaming, video diputar apa adanya
+- Proses upload bersifat sinkron di server, jadi file sangat besar bergantung pada batas PHP
+- Pengurutan lesson memakai tombol naik/turun, belum drag-and-drop
+- Fitur di mockup yang tidak dikerjakan: section, dashboard statistik, halaman Students/Analytics/Settings
+- Tampilan belum sepenuhnya mengikuti mockup Figma
