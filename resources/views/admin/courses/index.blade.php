@@ -38,6 +38,7 @@
                                 </td>
                                 <td class="px-4 py-3 flex gap-3">
                                     <a class="text-blue-700" href="{{ route('admin.courses.edit', $course) }}">Edit</a>
+                                    <a class="text-blue-700" href="{{ route('admin.courses.lessons.index', $course) }}">Lessons</a>
                                     <form method="POST" action="{{ route('admin.courses.destroy', $course) }}"
                                           onsubmit="return confirm('Hapus course ini beserta lesson dan videonya?')">
                                         @csrf
