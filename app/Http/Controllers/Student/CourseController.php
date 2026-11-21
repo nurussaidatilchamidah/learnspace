@@ -5,18 +5,24 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Lesson;
+use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    public function index()
-    {
-        $courses = Course::where('status', 'published')
-            ->withCount('lessons')
-            ->latest()
-            ->paginate(9);
+public function index(Request $request)
+{
+    $categories = Course::where('status', 'published')
+        ->whereNotNull('category')->distinct()->orderBy('category')->pluck('category');
 
-        return view('student.courses.index', compact('courses'));
-    }
+    $courses = Course::where('status', 'published')
+        ->when($request->category, fn ($q, $c) => $q->where('category', $c))
+        ->withCount('lessons')
+        ->latest()
+        ->paginate(9)
+        ->withQueryString();
+
+    return view('student.courses.index', compact('courses', 'categories'));
+}
 
     public function show(Course $course)
     {

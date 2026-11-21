@@ -81,7 +81,10 @@ Buka http://127.0.0.1:8000
 
 ## Dokumen desain
 
-Lihat folder `docs/`: system design, ERD, flowchart admin dan student.
+![System Design](docs/system_design.png)
+![ERD](docs/erd.png)
+![Flowchart Admin](docs/flowchart_admin.png)
+![Flowchart Student](docs/flowchart_student.png)
 Prototype UI: (tempel link Figma di sini)
 
 ## Asumsi
@@ -92,6 +95,10 @@ Prototype UI: (tempel link Figma di sini)
 - Student dapat melihat semua course berstatus published tanpa proses enrollment
 - Status video: `uploading` (sedang diproses), `ready` (siap ditonton), `failed` (gagal, bisa retry)
 - Student hanya dapat menonton video `ready` dari course yang published
+- Lesson dibuat lebih dulu, lalu video diupload di halaman edit lesson (video membutuhkan lesson yang sudah tersimpan)
+- Registrasi mandiri hanya membuat akun Student. Akun Admin hanya dibuat lewat seeder
+- Seeder membuat course dan lesson contoh tanpa video. Video tidak disertakan di repository
+  (disimpan di storage private), upload sendiri lewat akun admin untuk mencoba pemutaran
 
 ## Keterbatasan
 
@@ -101,4 +108,5 @@ Prototype UI: (tempel link Figma di sini)
 - Proses upload bersifat sinkron di server, jadi file sangat besar bergantung pada batas PHP
 - Pengurutan lesson memakai tombol naik/turun, belum drag-and-drop
 - Fitur di mockup yang tidak dikerjakan: section, dashboard statistik, halaman Students/Analytics/Settings
-- Tampilan belum sepenuhnya mengikuti mockup Figma
+- Tampilan mengikuti mockup Figma untuk halaman utama. Menu Overview, Students, Analytics, Settings,
+  serta rating, progress belajar, dan section tidak diimplementasikan

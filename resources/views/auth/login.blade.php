@@ -1,47 +1,50 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<x-auth-split eyebrow="WELCOME BACK" title="Your next chapter awaits." subtitle="Sign in to your LearnSpace account.">
 
-    <form method="POST" action="{{ route('login') }}">
+    @if (session('status'))
+        <div class="mt-6 rounded-lg bg-[#E6F2EA] px-4 py-3 text-sm text-[#2E6B4A]">{{ session('status') }}</div>
+    @endif
+
+    <form method="POST" action="{{ route('login') }}" class="mt-6 space-y-4">
         @csrf
 
-        <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <label for="email" class="block text-sm font-medium">Email address</label>
+            <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus
+                   autocomplete="username" placeholder="you@example.com"
+                   class="mt-2 w-full rounded-lg border-slate-200 px-4 py-2.5 text-sm focus:border-[#2F5C9E] focus:ring-[#2F5C9E]">
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
+        <div>
+            <label for="password" class="block text-sm font-medium">Password</label>
+            <div class="relative mt-2">
+                <input id="password" name="password" type="password" required autocomplete="current-password"
+                       class="w-full rounded-lg border-slate-200 px-4 py-2.5 pr-16 text-sm focus:border-[#2F5C9E] focus:ring-[#2F5C9E]">
+                <button type="button" data-toggle-pw="password"
+                        class="absolute inset-y-0 right-4 text-sm text-[#2F5C9E] font-medium">Show</button>
+            </div>
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+        <div class="flex flex-wrap items-center justify-between gap-2 text-sm">
+            <label class="flex items-center gap-2 text-slate-600">
+                <input type="checkbox" name="remember" class="rounded border-slate-300 text-[#162A4A] focus:ring-[#162A4A]">
+                Remember me
             </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+                <a href="{{ route('password.request') }}" class="font-medium text-[#2F5C9E]">Forgot password?</a>
             @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
         </div>
+
+        <button class="w-full rounded-lg bg-[#162A4A] py-3 text-sm font-semibold text-white hover:bg-[#1F3B63]">
+            Sign in
+        </button>
     </form>
-</x-guest-layout>
+
+    @if (Route::has('register'))
+        <p class="mt-6 text-center text-sm text-slate-500">
+            New to LearnSpace?
+            <a href="{{ route('register') }}" class="font-semibold text-[#2F5C9E]">Create an account</a>
+        </p>
+    @endif
+</x-auth-split>

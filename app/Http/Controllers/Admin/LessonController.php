@@ -21,16 +21,16 @@ class LessonController extends Controller
         return view('admin.lessons.form', ['course' => $course, 'lesson' => new Lesson()]);
     }
 
-    public function store(Request $request, Course $course)
-    {
-        $data = $this->validated($request);
-        $data['sort_order'] = ($course->lessons()->max('sort_order') ?? 0) + 1;
+public function store(Request $request, Course $course)
+{
+    $data = $this->validated($request);
+    $data['sort_order'] = ($course->lessons()->max('sort_order') ?? 0) + 1;
 
-        $course->lessons()->create($data);
+    $lesson = $course->lessons()->create($data);
 
-        return redirect()->route('admin.courses.lessons.index', $course)
-            ->with('success', 'Lesson berhasil ditambahkan.');
-    }
+    return redirect()->route('admin.lessons.edit', $lesson)
+        ->with('success', 'Lesson dibuat. Sekarang upload videonya.');
+}
 
     public function edit(Lesson $lesson)
     {
