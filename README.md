@@ -116,7 +116,7 @@ Alur login, melihat daftar course, memilih course dan lesson, lalu menonton vide
 
 ## Asumsi
 
-- Satu lesson memiliki satu video (relasi 1:1)
+- Satu lesson memiliki satu video
 - Format video: MP4, MOV, WebM, maksimal 500 MB
 - Video disimpan di `storage/app/private`, tanpa object storage, queue, atau transcoding
 - Student dapat melihat semua course berstatus published tanpa proses enrollment
@@ -134,6 +134,5 @@ Alur login, melihat daftar course, memilih course dan lesson, lalu menonton vide
 - Tidak ada transcoding atau adaptive streaming, video diputar apa adanya
 - Proses upload bersifat sinkron di server, jadi file sangat besar bergantung pada batas PHP
 - Pengurutan lesson memakai tombol naik/turun, belum drag-and-drop
-- Fitur di mockup yang tidak dikerjakan: section, dashboard statistik, halaman Students/Analytics/Settings
 - Tampilan mengikuti mockup Figma untuk halaman utama. Menu Overview, Students, Analytics, Settings,
   serta rating, progress belajar, dan section tidak diimplementasikan
