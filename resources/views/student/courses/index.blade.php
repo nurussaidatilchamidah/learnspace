@@ -32,12 +32,19 @@
     @php $tints = ['#E4EAF4', '#E1EEE8', '#EAE4F2', '#F1EAE0', '#E3EAF0']; @endphp
     <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         @forelse ($courses as $course)
+            @php
+                $words = preg_split('/\s+/', trim($course->title));
+                $caps = preg_replace('/[^A-Z]/', '', $words[0]);
+                $code = strlen($caps) >= 2
+                    ? substr($caps, 0, 2)
+                    : strtoupper(substr($words[0], 0, 1) . substr($words[1] ?? $words[0], isset($words[1]) ? 0 : 1, 1));
+            @endphp
             <a href="{{ route('student.courses.show', $course) }}"
                class="block rounded-xl border border-slate-100 bg-white p-3 transition hover:shadow-md">
                 <div class="rounded-lg px-5 py-6" style="background: {{ $tints[$course->id % 5] }}">
                     <div class="text-[10px] font-semibold uppercase tracking-wide text-[#2F5C9E]">{{ $course->category ?: 'Course' }}</div>
                     <div class="mt-2 text-3xl font-bold">
-                        {{ strtoupper(substr($course->title, 0, 2)) }} / {{ str_pad($course->id, 2, '0', STR_PAD_LEFT) }}
+                        {{ $code }} / {{ str_pad($course->id, 2, '0', STR_PAD_LEFT) }}
                     </div>
                 </div>
                 <div class="px-2 pb-2 pt-4">
