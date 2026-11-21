@@ -112,7 +112,7 @@ Alur login, melihat daftar course, memilih course dan lesson, lalu menonton vide
 ---
 
 ### Prototype UI
-[Lihat prototype di Figma](GANTI_DENGAN_LINK_FIGMA)
+[Lihat prototype di Figma](https://www.figma.com/proto/zs54Ui0uqeH65IBeAhvdAP/LearnSpace?node-id=2-2&p=f&t=C3Cye1wkmq6JCPKr-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1)
 
 ## Asumsi
 
