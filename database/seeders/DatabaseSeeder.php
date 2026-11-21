@@ -12,14 +12,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Jordan Lee',
+            'name' => 'Nurus Saidatil',
             'email' => 'admin@learnspace.test',
             'password' => Hash::make('password'),
             'role' => 'admin',
         ]);
 
         User::create([
-            'name' => 'Alex Morgan',
+            'name' => 'Mohammad Rian',
             'email' => 'student@learnspace.test',
             'password' => Hash::make('password'),
             'role' => 'student',
