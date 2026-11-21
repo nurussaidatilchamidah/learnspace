@@ -81,11 +81,38 @@ Buka http://127.0.0.1:8000
 
 ## Dokumen desain
 
+Semua diagram ada di folder [`docs/`](docs/).
+
+### 1. System design
+Alur komponen utama: user mengakses lewat browser ke aplikasi Laravel, yang terbagi menjadi autentikasi dan role, manajemen course dan lesson, serta upload dan pemutaran video. Data disimpan di MySQL, file video di storage private.
+
 ![System Design](docs/system_design.png)
+
+---
+
+### 2. ERD (database)
+Empat tabel: `users`, `courses`, `lessons`, `videos`. Satu course memiliki banyak lesson, dan satu lesson memiliki paling banyak satu video. Kolom `category` dan `level` ditambahkan di `courses` mengikuti desain UI.
+
 ![ERD](docs/erd.png)
+
+---
+
+### 3. Flowchart Admin
+Alur login, kelola course, kelola lesson (data, urutan, upload video), status video `uploading`, `ready`, `failed`, dan Retry saat upload gagal.
+
 ![Flowchart Admin](docs/flowchart_admin.png)
+
+---
+
+### 4. Flowchart Student
+Alur login, melihat daftar course, memilih course dan lesson, lalu menonton video. Jika video belum siap, ditampilkan informasi video belum tersedia.
+
 ![Flowchart Student](docs/flowchart_student.png)
-Prototype UI: (tempel link Figma di sini)
+
+---
+
+### Prototype UI
+[Lihat prototype di Figma](GANTI_DENGAN_LINK_FIGMA)
 
 ## Asumsi
 
